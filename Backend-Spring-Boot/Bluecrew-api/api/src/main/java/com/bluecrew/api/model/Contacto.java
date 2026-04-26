@@ -37,9 +37,21 @@ public class Contacto {
     @Column(length = 255)
     private String direccion;
 
+    @Schema(description = "Asunto del mensaje", example = "Problema con inicio de sesión")
+    @Column(length = 150)
+    private String asunto;
+
     @Schema(description = "Cuerpo del mensaje o duda", example = "Hola, me gustaría saber cómo puedo...")
     @Column(nullable = false, columnDefinition = "TEXT")
     private String mensaje;
+
+    @Schema(description = "Estado actual del mensaje", example = "NUEVO")
+    @Column(length = 50)
+    private String estado = "NUEVO";
+
+    @Schema(description = "Respuesta enviada al usuario (Opcional)", example = "Gracias por contactar, el problema ha sido resuelto.")
+    @Column(columnDefinition = "TEXT")
+    private String respuesta;
 
     @Schema(description = "Fecha en la que se envió el mensaje de contacto")
     @Column(name = "fecha_creacion")
