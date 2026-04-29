@@ -34,44 +34,50 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                // Permitir el acceso a la carpeta de imágenes estáticas
-                .requestMatchers("/uploads/**").permitAll()
-                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/usuarios").permitAll()
-                // Proteger rutas de administración (HU-ADM)
-                .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
-                // --- MODO DESARROLLO: ABIERTO ---
-                .anyRequest().permitAll() //TODO: ¡CUIDADO! Quitar antes de ir a producción
-                
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        // Permitir el acceso a la carpeta de imágenes estáticas
+                        .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/usuarios").permitAll()
+                        // Proteger rutas de administración
+                        .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
+                        // --- MODO DESARROLLO: ABIERTO ---
+                        .anyRequest().permitAll() // TODO: ¡CUIDADO! Quitar antes de ir a producción
 
-                /* ----------- CÓDIGO ORIGINAL COMENTADO (HABILITAR EN PRODUCCIÓN) ---------------------------------------------
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/", "/index.html", "/error", "/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                // Permitimos ver la lista de eventos y noticias (solo metodo GET)
-                .requestMatchers(HttpMethod.GET, "/api/eventos").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/noticias/**").permitAll()
-                // Reglas Protegidas
-                .requestMatchers("/api/usuarios/**").hasRole("ADMIN")
-                // Cualquier OTRA petición a eventos (como GET /api/eventos/{id} o POST) requerirá token
-                .requestMatchers("/api/eventos/**").authenticated()
-                .anyRequest().authenticated()
-                --------------------------------------------------------------------------------------------*/
-            )
-            // Cambiamos a STATELESS (sin estado)
-            // .sessionManagement(session -> session
-            //     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            // );
+                /*
+                 * ----------- CÓDIGO ORIGINAL COMENTADO (HABILITAR EN PRODUCCIÓN)
+                 * ---------------------------------------------
+                 * .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                 * .requestMatchers("/", "/index.html", "/error", "/api/auth/**",
+                 * "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                 * // Permitimos ver la lista de eventos y noticias (solo metodo GET)
+                 * .requestMatchers(HttpMethod.GET, "/api/eventos").permitAll()
+                 * .requestMatchers(HttpMethod.GET, "/api/noticias/**").permitAll()
+                 * // Reglas Protegidas
+                 * .requestMatchers("/api/usuarios/**").hasRole("ADMIN")
+                 * // Cualquier OTRA petición a eventos (como GET /api/eventos/{id} o POST)
+                 * requerirá token
+                 * .requestMatchers("/api/eventos/**").authenticated()
+                 * .anyRequest().authenticated()
+                 * -----------------------------------------------------------------------------
+                 * ---------------
+                 */
+                )
+                // Cambiamos a STATELESS (sin estado)
+                // .sessionManagement(session -> session
+                // .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                // );
 
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-            )
-            .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 
-            // Añadimos nuestro filtro JWT antes del filtro de autenticación por defecto
-            // .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-            // ----------------------- DESCOMENTAR LO DE ARRIBA EN PRODUCCION ----------------------
+        // Añadimos nuestro filtro JWT antes del filtro de autenticación por defecto
+        // .addFilterBefore(jwtAuthenticationFilter,
+        // UsernamePasswordAuthenticationFilter.class);
+        // ----------------------- DESCOMENTAR LO DE ARRIBA EN PRODUCCION
+        // ----------------------
 
         return http.build();
     }
@@ -79,26 +85,24 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider authProvider(
             UserDetailsService userDetailsService,
-            PasswordEncoder passwordEncoder) {     
+            PasswordEncoder passwordEncoder) {
 
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }
 
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        
-       
-      configuration.setAllowedOriginPatterns(List.of("*"));
-        
+
+        configuration.setAllowedOriginPatterns(List.of("*"));
+
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        
+
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Access-Control-Allow-Origin"));
-        configuration.setAllowCredentials(true); 
-        
+        configuration.setAllowCredentials(true);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -113,5 +117,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
 }
