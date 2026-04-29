@@ -40,6 +40,8 @@ public class SecurityConfig {
                 // Permitir el acceso a la carpeta de imágenes estáticas
                 .requestMatchers("/uploads/**").permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/usuarios").permitAll()
+                // Proteger rutas de administración (HU-ADM)
+                .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
                 // --- MODO DESARROLLO: ABIERTO ---
                 .anyRequest().permitAll() //TODO: ¡CUIDADO! Quitar antes de ir a producción
                 

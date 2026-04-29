@@ -45,9 +45,10 @@ public class Contacto {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String mensaje;
 
-    @Schema(description = "Estado actual del mensaje", example = "NUEVO")
+    @Schema(description = "Estado actual del mensaje", example = "PENDIENTE")
+    @Enumerated(EnumType.STRING)
     @Column(length = 50)
-    private String estado = "NUEVO";
+    private EstadoContacto estado = EstadoContacto.PENDIENTE;
 
     @Schema(description = "Respuesta enviada al usuario (Opcional)", example = "Gracias por contactar, el problema ha sido resuelto.")
     @Column(columnDefinition = "TEXT")

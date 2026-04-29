@@ -53,21 +53,6 @@ public class EstadisticasController {
     @Autowired
     private ContactoService contactoService;
 
-    @GetMapping("/estadisticas/admin")
-    @Operation(summary = "Estadísticas para el Admin", description = "Retorna total de usuarios, eventos, ONGs y mensajes nuevos")
-    public ResponseEntity<Map<String, Number>> getEstadisticasAdmin() {
-        Map<String, Number> stats = new HashMap<>();
-        stats.put("Usuarios", usuarioService.count());
-        stats.put("Eventos", eventoService.count());
-        stats.put("ONGs", organizacionService.count());
-        
-        long countNuevos = contactoService.obtenerTodosLosContactos().stream()
-                            .filter(c -> "NUEVO".equalsIgnoreCase(c.getEstado()))
-                            .count();
-        stats.put("Mensajes_Nuevos", countNuevos);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(stats);
-    }
 
 }
