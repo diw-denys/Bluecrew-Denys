@@ -41,7 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/usuarios").permitAll()
                         // Proteger rutas de administración
-                        .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
+                        // .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
                         // --- MODO DESARROLLO: ABIERTO ---
                         .anyRequest().permitAll() // TODO: ¡CUIDADO! Quitar antes de ir a producción
 
