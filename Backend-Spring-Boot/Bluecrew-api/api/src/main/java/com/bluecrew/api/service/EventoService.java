@@ -14,6 +14,15 @@ public class EventoService {
     @Autowired
     public EventoRepository eventoRepository;
 
+    @Autowired
+    private com.bluecrew.api.repository.InscripcionesRepository inscripcionesRepository;
+
+    @Autowired
+    private com.bluecrew.api.repository.CalificacionRepository calificacionRepository;
+
+    @Autowired
+    private com.bluecrew.api.repository.RecoleccionResiduosRepository recoleccionResiduosRepository;
+
     // ************************
     // CONSULTAS
     // ************************
@@ -100,6 +109,9 @@ public class EventoService {
 
     @Transactional
     public void deleteById(int id) {
+        inscripcionesRepository.deleteSqlByEventoId(id);
+        calificacionRepository.deleteSqlByEventoId(id);
+        recoleccionResiduosRepository.deleteSqlByEventoId(id);
         eventoRepository.deleteById(id);
     }
 }

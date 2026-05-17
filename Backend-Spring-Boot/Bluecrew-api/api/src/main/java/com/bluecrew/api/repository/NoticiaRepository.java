@@ -16,5 +16,10 @@ public interface NoticiaRepository extends JpaRepository<Noticia, Integer> {
     Noticia findSqlById(@Param("id") int notId);    
 
     @Query(value = "SELECT COUNT(*) as noticias FROM noticias", nativeQuery = true)
-    Long countSql();    
+    Long countSql();
+
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.transaction.annotation.Transactional
+    @Query(value = "DELETE FROM noticias WHERE id_autor = :id", nativeQuery = true)
+    void deleteSqlByAutorId(@Param("id") Integer id);
 }

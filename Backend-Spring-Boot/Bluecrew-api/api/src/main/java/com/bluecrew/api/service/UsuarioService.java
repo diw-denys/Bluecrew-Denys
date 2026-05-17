@@ -17,8 +17,24 @@ public class UsuarioService {
     @Autowired
     public UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private com.bluecrew.api.repository.InscripcionesRepository inscripcionesRepository;
 
-   
+    @Autowired
+    private com.bluecrew.api.repository.CalificacionRepository calificacionRepository;
+
+    @Autowired
+    private com.bluecrew.api.repository.NoticiaRepository noticiaRepository;
+
+    @Autowired
+    private com.bluecrew.api.repository.EventoRepository eventoRepository;
+
+    @Autowired
+    private com.bluecrew.api.repository.OrganizacionRepository organizacionRepository;
+
+    @Autowired
+    private com.bluecrew.api.repository.CategoriaRepository categoriaRepository;
+
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @Transactional(readOnly = true)
     public Usuario login(String email, String passwordPlano) {
@@ -88,6 +104,30 @@ public class UsuarioService {
     
     @Transactional
     public void deleteById(int id) {
+        // 1. Borrar inscripciones de este usuario en cualquier evento
+        inscripcionesRepository.deleteSqlByUsuarioId(id);
+        
+        // 2. Borrar calificaciones de este usuario en cualquier evento
+        calificacionRepository.deleteSqlByUsuarioId(id);
+        
+        // 3. Borrar noticias escritas por este usuario
+        noticiaRepository.deleteSqlByAutorId(id);
+        
+        // 4. Borrar calificaciones, inscripciones y recolecciones de residuos asociadas a eventos creados por este usuario
+        eventoRepository.deleteCalificacionesByEventCreatorId(id);
+        eventoRepository.deleteInscripcionesByEventCreatorId(id);
+        eventoRepository.deleteRecoleccionesByEventCreatorId(id);
+        
+        // 5. Borrar eventos creados por este usuario (para cumplir la restricción CHECK CHK_Creador_Evento)
+        eventoRepository.deleteEventsByCreatorId(id);
+        
+        // 6. Reasignar categorías creadas por este usuario al administrador Pepe (ID 1)
+        categoriaRepository.reassignCreatorByCreatorId(id);
+        
+        // 7. Desvincular organizaciones aprobadas por este usuario
+        organizacionRepository.nullifyApprovedByUserId(id);
+        
+        // 8. Finalmente borrar el usuario
         usuarioRepository.deleteById(id);
     }    
 }

@@ -21,4 +21,14 @@ public interface CalificacionRepository extends JpaRepository<Calificacion, Cali
 
     @Query(value = "SELECT * FROM calificaciones WHERE id_evento = :eventoId", nativeQuery = true)
     List<Calificacion> findSqlByEventoId(@Param("eventoId") Long eventoId);
+
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.transaction.annotation.Transactional
+    @Query(value = "DELETE FROM calificaciones WHERE id_evento = :id", nativeQuery = true)
+    void deleteSqlByEventoId(@Param("id") Integer id);
+
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.transaction.annotation.Transactional
+    @Query(value = "DELETE FROM calificaciones WHERE id_usuario = :id", nativeQuery = true)
+    void deleteSqlByUsuarioId(@Param("id") Integer id);
 }

@@ -19,4 +19,8 @@ public interface RecoleccionResiduosRepository extends JpaRepository<Recoleccion
     @Query(value = "SELECT SUM(CANTIDAD_RECOLECTADA) FROM RECOLECCION_RESIDUOS", nativeQuery = true)
     Long findSqlSum();
 
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.transaction.annotation.Transactional
+    @Query(value = "DELETE FROM RECOLECCION_RESIDUOS WHERE id_evento = :id", nativeQuery = true)
+    void deleteSqlByEventoId(@Param("id") Integer id);
 }
