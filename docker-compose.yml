@@ -16,6 +16,14 @@ services:
     networks:
       - app-network
 
+  admin-web:
+    build: ./bluecrew-admin
+    container_name: angular-admin
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
   nginx-proxy:
     image: nginx:alpine
     container_name: bluecrew_proxy
@@ -26,6 +34,7 @@ services:
       - uploads_volume:/data/uploads:ro 
     depends_on:
       - frontend
+      - admin-web
       - backend
     networks:
       - app-network
