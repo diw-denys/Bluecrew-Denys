@@ -142,10 +142,11 @@ public class CategoriaController {
 
     // ****************************************************************************
     // UPDATE (PUT)
-    // http://localhost:8080/api/categorias
-    @PutMapping("/categorias")
+    // http://localhost:8080/api/categorias/1
+    @PutMapping("/categorias/{id}")
     @Operation(summary = "Actualiza los datos de una categoría", description = "Recibe los datos de una categoría y actualiza sus campos")
     public ResponseEntity<Map<String, Object>> update(
+            @PathVariable int id,
             @Valid @RequestBody Categoria cat) {
 
         ResponseEntity<Map<String, Object>> response;
@@ -156,7 +157,6 @@ public class CategoriaController {
 
             response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(map);
         } else {
-            int id = cat.getIdCategoria(); // Usamos getIdCategoria() según tu modelo
             Categoria existingObj = categoriaService.findById(id);
 
             if (existingObj == null) {

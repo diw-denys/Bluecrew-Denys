@@ -18,7 +18,8 @@ import AvisoLegal from "./pages/AvisoLegal";
 import Noticias from "./pages/Noticias";
 import Noticia from "./pages/Noticia";
 import CrearEvento from "./pages/CrearEvento";
-import Login from "./pages/Login/LoginRegistro";
+// import Login from "./pages/Login/LoginRegistro";
+import Login from "./pages/Login/LoginUniversal";
 import SobreNosotros from "./pages/SobreNosotros";
 import PagOng from "./pages/Ong";
 import CalificarEvento from "./components/forms/CalificarEvento/CalificarEvento";
@@ -72,7 +73,14 @@ function App() {
   }, []);
 
   useEffect(() => {
-    obtenerDatos();
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("logout") === "true") {
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = "/";
+    } else {
+      obtenerDatos();
+    }
   }, [obtenerDatos]);
   return (
     <div className="d-flex flex-column min-vh-100">

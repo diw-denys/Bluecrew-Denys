@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historias de Usuario Admin - Denys</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Reglas específicas para impresión a PDF */
+        @media print {
+            /* Fix para el problema de las "I" y las "l" gruesas en PDF */
+            body, table, td, th, h1, h2, p, span, div {
+                font-family: Arial, Helvetica, sans-serif !important;
+                -webkit-font-smoothing: auto !important;
+                text-rendering: optimizeLegibility !important;
+            }
+            body {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                background-color: white !important;
+            }
+            /* Evitar que las tablas se corten por la mitad */
+            .avoid-break {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            /* Márgenes de la página (El pie de página se activa en los ajustes del navegador) */
+            @page {
+                margin: 1.5cm 1.5cm 2cm 1.5cm;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800 font-sans p-8 max-w-5xl mx-auto">
+
+    <header class="mb-8 avoid-break">
+        <div class="flex justify-between items-end border-b-2 border-blue-600 pb-4 mb-6">
+            <div class="w-2/3">
+                <h1 class="text-3xl font-bold text-blue-900 leading-tight">Parte Individual - Panel de Administración de BlueCrew</h1>
+            </div>
+            <div class="text-right text-gray-600 font-semibold w-1/3">
+                <p class="text-lg">Denys Petrychenko Oliynyk</p>
+                <p class="text-md text-blue-600">2ºDAW</p>
+            </div>
+        </div>
+    </header>
+
+    <section class="text-gray-800 space-y-4 mb-10 text-justify leading-relaxed avoid-break">
+        <p>En esta primera fase de la parte individual del proyecto he optado por planificar el desarrollo del <strong>Panel de Administración</strong> de la aplicación web <strong>BlueCrew</strong>.</p>
+        
+        <p>El objetivo de este panel es brindarle a los administradores las <strong>herramientas</strong> necesarias para gestionar la comunidad, moderar el contenido y mantener el control sobre la información de la base de datos (usuarios, eventos, ONGs, mensajes…).</p>
+        
+        <p>A nivel técnico, esta parte del proyecto se construirá con un frontend totalmente independiente utilizando el framework <strong>Angular</strong>. Para el backend, se reutilizará la API desarrollada en grupo con <strong>Spring Boot</strong>, a la cual se le añadirán los endpoints necesarios para soportar estas nuevas funcionalidades.</p>
+    </section>
+
+    <section class="mb-8 avoid-break">
+        <h2 class="text-2xl font-bold text-blue-700 mb-4 border-b-2 border-gray-300 pb-2">Definición de las Historias de Usuario del Administrador</h2>
+        <p class="mb-6">Para organizar y definir qué debe poder hacer el administrador en su nuevo panel, se han redactado las siguientes <strong>Historias de Usuario</strong>.</p>
+    </section>
+
+    <main class="space-y-10">
+
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-300 avoid-break">
+            <table class="w-full text-left border-collapse table-fixed">
+                <tbody>
+                    <tr class="bg-blue-600 text-white border-b border-blue-700">
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[8%]">ID</td>
+                        <td class="p-3 border-r border-blue-700 whitespace-nowrap font-semibold w-[12%]">HU-ADM-01</td>
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[10%]">Título</td>
+                        <td class="p-3 border-r border-blue-700 font-semibold w-[35%]">Dashboard de Estadísticas</td>
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[15%]">Estimación</td>
+                        <td class="p-3 whitespace-nowrap align-middle w-[20%]">
+                            <span class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm font-bold shadow-sm">5 ptos</span>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Como:</td>
+                        <td class="p-3 bg-white text-gray-600 border-r border-gray-200">administrador</td>
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Quiero:</td>
+                        <td class="p-3 bg-white text-gray-600 border-r border-gray-200">ver un panel con estadísticas globales</td>
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Para:</td>
+                        <td class="p-3 bg-white text-gray-600">conocer el estado de la aplicación rápidamente</td>
+                    </tr>
+                    <tr class="bg-gray-100 border-b border-gray-200">
+                        <td colspan="6" class="p-2 font-bold text-center text-blue-950 tracking-wide">Criterios de Aceptación</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td colspan="6" class="p-5">
+                            <ul class="list-disc ml-6 space-y-2 text-gray-700">
+                                <li>El panel debe mostrar tarjetas visuales con números totales de Usuarios, Eventos, ONGs y Mensajes nuevos</li>
+                                <li>Los datos deben cargarse dinámicamente a través de los nuevos endpoints del backend</li>
+                                <li>Esta vista debe estar protegida y ser accesible sólo por el usuarios ADMIN</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-300 avoid-break">
+            <table class="w-full text-left border-collapse table-fixed">
+                <tbody>
+                    <tr class="bg-blue-600 text-white border-b border-blue-700">
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[8%]">ID</td>
+                        <td class="p-3 border-r border-blue-700 whitespace-nowrap font-semibold w-[12%]">HU-ADM-02</td>
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[10%]">Título</td>
+                        <td class="p-3 border-r border-blue-700 font-semibold w-[35%]">Gestión Integral de Usuarios</td>
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[15%]">Estimación</td>
+                        <td class="p-3 whitespace-nowrap align-middle w-[20%]">
+                            <span class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm font-bold shadow-sm">8 ptos</span>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Como:</td>
+                        <td class="p-3 bg-white text-gray-600 border-r border-gray-200">administrador</td>
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Quiero:</td>
+                        <td class="p-3 bg-white text-gray-600 border-r border-gray-200">tener control total sobre las cuentas de los usuarios</td>
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Para:</td>
+                        <td class="p-3 bg-white text-gray-600">mantener la base de datos y gestionar incidencias</td>
+                    </tr>
+                    <tr class="bg-gray-100 border-b border-gray-200">
+                        <td colspan="6" class="p-2 font-bold text-center text-blue-950 tracking-wide">Criterios de Aceptación</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td colspan="6" class="p-5">
+                            <ul class="list-disc ml-6 space-y-2 text-gray-700">
+                                <li>Tabla con listado completo de usuarios (filtros por email, rol y estado)</li>
+                                <li>Funcionalidad para editar datos básicos del perfil y borrar usuarios definitivamente</li>
+                                <li>Botón de acción rápida para bloquear/desbloquear acceso</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-300 avoid-break">
+            <table class="w-full text-left border-collapse table-fixed">
+                <tbody>
+                    <tr class="bg-blue-600 text-white border-b border-blue-700">
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[8%]">ID</td>
+                        <td class="p-3 border-r border-blue-700 whitespace-nowrap font-semibold w-[12%]">HU-ADM-03</td>
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[10%]">Título</td>
+                        <td class="p-3 border-r border-blue-700 font-semibold w-[35%]">Aprobación de ONGs</td>
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[15%]">Estimación</td>
+                        <td class="p-3 whitespace-nowrap align-middle w-[20%]">
+                            <span class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm font-bold shadow-sm">5 ptos</span>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Como:</td>
+                        <td class="p-3 bg-white text-gray-600 border-r border-gray-200">administrador</td>
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Quiero:</td>
+                        <td class="p-3 bg-white text-gray-600 border-r border-gray-200">revisar solicitudes de ONGs y gestionar sus perfiles</td>
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Para:</td>
+                        <td class="p-3 bg-white text-gray-600">asegurar la legitimidad de las organizaciones</td>
+                    </tr>
+                    <tr class="bg-gray-100 border-b border-gray-200">
+                        <td colspan="6" class="p-2 font-bold text-center text-blue-950 tracking-wide">Criterios de Aceptación</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td colspan="6" class="p-5">
+                            <ul class="list-disc ml-6 space-y-2 text-gray-700">
+                                <li>Vista separada para listar ONGs en estado PENDIENTE de validación</li>
+                                <li>Botones claros para poder Aprobar o Rechazar</li>
+                                <li>Listado general de ONGs activas con capacidad de edición de datos o borrado (CRUD)</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-300 avoid-break">
+            <table class="w-full text-left border-collapse table-fixed">
+                <tbody>
+                    <tr class="bg-blue-600 text-white border-b border-blue-700">
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[8%]">ID</td>
+                        <td class="p-3 border-r border-blue-700 whitespace-nowrap font-semibold w-[12%]">HU-ADM-04</td>
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[10%]">Título</td>
+                        <td class="p-3 border-r border-blue-700 font-semibold w-[35%]">Gestión de Mensajes de Contacto</td>
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[15%]">Estimación</td>
+                        <td class="p-3 whitespace-nowrap align-middle w-[20%]">
+                            <span class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm font-bold shadow-sm">8 ptos</span>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Como:</td>
+                        <td class="p-3 bg-white text-gray-600 border-r border-gray-200">administrador</td>
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Quiero:</td>
+                        <td class="p-3 bg-white text-gray-600 border-r border-gray-200">leer y responder a las consultas recibidas</td>
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Para:</td>
+                        <td class="p-3 bg-white text-gray-600">dar soporte a los usuarios</td>
+                    </tr>
+                    <tr class="bg-gray-100 border-b border-gray-200">
+                        <td colspan="6" class="p-2 font-bold text-center text-blue-950 tracking-wide">Criterios de Aceptación</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td colspan="6" class="p-5">
+                            <ul class="list-disc ml-6 space-y-2 text-gray-700">
+                                <li>Listado de mensajes recibidos (nombre, email, asunto, fecha) indicando el estado</li>
+                                <li>Vista de detalle para leer el cuerpo completo del mensaje de contacto</li>
+                                <li>Formulario para redactar respuesta y enviar correo electrónico directamente al usuario</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-300 avoid-break">
+            <table class="w-full text-left border-collapse table-fixed">
+                <tbody>
+                    <tr class="bg-blue-600 text-white border-b border-blue-700">
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[8%]">ID</td>
+                        <td class="p-3 border-r border-blue-700 whitespace-nowrap font-semibold w-[12%]">HU-ADM-05</td>
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[10%]">Título</td>
+                        <td class="p-3 border-r border-blue-700 font-semibold w-[35%]">Gestión Integral de Eventos</td>
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[15%]">Estimación</td>
+                        <td class="p-3 whitespace-nowrap align-middle w-[20%]">
+                            <span class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm font-bold shadow-sm">5 ptos</span>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Como:</td>
+                        <td class="p-3 bg-white text-gray-600 border-r border-gray-200">administrador</td>
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Quiero:</td>
+                        <td class="p-3 bg-white text-gray-600 border-r border-gray-200">ver y gestionar todos los eventos programados</td>
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Para:</td>
+                        <td class="p-3 bg-white text-gray-600">moderar contenido y editar detalles si hay errores</td>
+                    </tr>
+                    <tr class="bg-gray-100 border-b border-gray-200">
+                        <td colspan="6" class="p-2 font-bold text-center text-blue-950 tracking-wide">Criterios de Aceptación</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td colspan="6" class="p-5">
+                            <ul class="list-disc ml-6 space-y-2 text-gray-700">
+                                <li>Vista de tabla con todos los eventos creados, indicando fecha, autor y estado</li>
+                                <li>Funcionalidad para editar cualquier campo del evento o borrarlo definitivamente</li>
+                                <li>Ventana de aviso pidiendo confirmación de seguridad antes de borrar un evento</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-300 avoid-break">
+            <table class="w-full text-left border-collapse table-fixed">
+                <tbody>
+                    <tr class="bg-blue-600 text-white border-b border-blue-700">
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[8%]">ID</td>
+                        <td class="p-3 border-r border-blue-700 whitespace-nowrap font-semibold w-[12%]">HU-ADM-06</td>
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[10%]">Título</td>
+                        <td class="p-3 border-r border-blue-700 font-semibold w-[35%]">Gestión de Categorías</td>
+                        <td class="p-3 font-bold border-r border-blue-700 whitespace-nowrap text-blue-100 w-[15%]">Estimación</td>
+                        <td class="p-3 whitespace-nowrap align-middle w-[20%]">
+                            <span class="bg-blue-800 text-white px-3 py-1 rounded-full text-sm font-bold shadow-sm">3 ptos</span>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Como:</td>
+                        <td class="p-3 bg-white text-gray-600 border-r border-gray-200">administrador</td>
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Quiero:</td>
+                        <td class="p-3 bg-white text-gray-600 border-r border-gray-200">crear, editar y eliminar categorías</td>
+                        <td class="p-3 font-bold bg-gray-50 text-blue-950 border-r border-gray-200">Para:</td>
+                        <td class="p-3 bg-white text-gray-600">mantener organizado el contenido de la web</td>
+                    </tr>
+                    <tr class="bg-gray-100 border-b border-gray-200">
+                        <td colspan="6" class="p-2 font-bold text-center text-blue-950 tracking-wide">Criterios de Aceptación</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td colspan="6" class="p-5">
+                            <ul class="list-disc ml-6 space-y-2 text-gray-700">
+                                <li>Listado mostrando todas las categorías actuales de la plataforma</li>
+                                <li>Formulario rápido para añadir una nueva categoría introduciendo su nombre</li>
+                                <li>Opciones para editar el nombre o eliminar una categoría</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+</body>
+</html>

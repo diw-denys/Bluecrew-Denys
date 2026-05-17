@@ -22,4 +22,9 @@ public interface OrganizacionRepository extends JpaRepository<Organizacion, Inte
 
     @Query(value = "SELECT * FROM ORGANIZACIONES WHERE email = :email", nativeQuery = true)
     Optional<Organizacion> findByEmail(@Param("email") String email);
+
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.transaction.annotation.Transactional
+    @Query(value = "UPDATE organizaciones SET id_aprobado_por = NULL WHERE id_aprobado_por = :id", nativeQuery = true)
+    void nullifyApprovedByUserId(@Param("id") Integer id);
 }

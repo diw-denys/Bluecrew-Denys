@@ -17,4 +17,8 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
     @Query(value = "SELECT COUNT(*) as num_categorias FROM categorias", nativeQuery = true)
     Long countSql();
 
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.transaction.annotation.Transactional
+    @Query(value = "UPDATE categorias SET id_creador = 1 WHERE id_creador = :id", nativeQuery = true)
+    void reassignCreatorByCreatorId(@Param("id") Integer id);
 }

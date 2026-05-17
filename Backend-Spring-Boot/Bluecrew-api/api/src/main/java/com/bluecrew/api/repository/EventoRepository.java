@@ -94,4 +94,24 @@ public interface EventoRepository extends JpaRepository<Evento, Integer> {
                         "AND e.FINALIZADO = false " +
                         "AND e.ESTADO = 'APROBADO'", nativeQuery = true)
         List<Object[]> findEventosPublicadosByOng(@Param("idOng") int idOng);
+
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.transaction.annotation.Transactional
+    @Query(value = "DELETE FROM calificaciones WHERE id_evento IN (SELECT id_evento FROM eventos WHERE id_user = :id)", nativeQuery = true)
+    void deleteCalificacionesByEventCreatorId(@Param("id") Integer id);
+
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.transaction.annotation.Transactional
+    @Query(value = "DELETE FROM inscripciones WHERE id_evento IN (SELECT id_evento FROM eventos WHERE id_user = :id)", nativeQuery = true)
+    void deleteInscripcionesByEventCreatorId(@Param("id") Integer id);
+
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.transaction.annotation.Transactional
+    @Query(value = "DELETE FROM recoleccion_residuos WHERE id_evento IN (SELECT id_evento FROM eventos WHERE id_user = :id)", nativeQuery = true)
+    void deleteRecoleccionesByEventCreatorId(@Param("id") Integer id);
+
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.transaction.annotation.Transactional
+    @Query(value = "DELETE FROM eventos WHERE id_user = :id", nativeQuery = true)
+    void deleteEventsByCreatorId(@Param("id") Integer id);
 }

@@ -48,4 +48,14 @@ public interface InscripcionesRepository extends JpaRepository<Inscripciones, In
         @Query(value = "SELECT FORMATDATETIME(fecha_Inscripcion, 'dd-MM-yyyy'), COUNT(*) FROM Inscripciones GROUP BY CAST(fecha_Inscripcion AS date) "
                         + "ORDER BY FORMATDATETIME(fecha_Inscripcion, 'dd-MM-yyyy') DESC", nativeQuery = true)
         List<Object[]> countInscripcionesPorDia();
+
+        @org.springframework.data.jpa.repository.Modifying
+        @org.springframework.transaction.annotation.Transactional
+        @Query(value = "DELETE FROM Inscripciones WHERE id_evento = :id", nativeQuery = true)
+        void deleteSqlByEventoId(@Param("id") Integer id);
+
+        @org.springframework.data.jpa.repository.Modifying
+        @org.springframework.transaction.annotation.Transactional
+        @Query(value = "DELETE FROM Inscripciones WHERE id_usuario = :id", nativeQuery = true)
+        void deleteSqlByUsuarioId(@Param("id") Integer id);
 }

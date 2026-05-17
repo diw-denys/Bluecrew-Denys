@@ -1,0 +1,17 @@
+.list-group-item {
+  background-color: #ffffff !important;
+  transition: background-color 0.2s ease;
+}
+.list-group-item:hover:not(.active) {
+  background-color: #f1f3f5 !important;
+}
+.list-group-item.active {
+  background-color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+  color: #fff !important;
+}
+.list-group-item.active .text-secondary,
+.list-group-item.active .text-warning,
+.list-group-item.active small {
+  color: rgba(255, 255, 255, 0.8) !important;
+}

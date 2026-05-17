@@ -40,4 +40,21 @@ public class ContactoController {
         contactoService.eliminarContacto(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @Operation(summary = "Actualizar estado de mensaje de contacto", description = "Actualiza el estado (respondido, etc) y la respuesta del mensaje.")
+    @PutMapping("/{id}")
+    public ResponseEntity<Contacto> updateContacto(@PathVariable Long id, @RequestBody Contacto contactoActualizado) {
+        List<Contacto> todos = contactoService.obtenerTodosLosContactos();
+        Contacto existente = todos.stream().filter(c -> c.getId().equals(id)).findFirst().orElse(null);
+        
+        if (existente == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        
+        existente.setEstado(contactoActualizado.getEstado());
+        existente.setRespuesta(contactoActualizado.getRespuesta());
+        
+        Contacto guardado = contactoService.guardarContacto(existente);
+        return new ResponseEntity<>(guardado, HttpStatus.OK);
+    }
 }

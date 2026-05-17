@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bluecrew.api.service.EventoService;
 import com.bluecrew.api.service.RecoleccionResiduosService;
 import com.bluecrew.api.service.UsuarioService;
+import com.bluecrew.api.service.OrganizacionService;
+import com.bluecrew.api.service.ContactoService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,5 +46,13 @@ public class EstadisticasController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(stats);
     }
+
+    @Autowired
+    private OrganizacionService organizacionService;
+
+    @Autowired
+    private ContactoService contactoService;
+
+
 
 }
