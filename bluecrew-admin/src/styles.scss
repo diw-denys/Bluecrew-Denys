@@ -20,17 +20,20 @@ $font-weight-normal: 400;
 $font-weight-semibold: 600;
 $font-weight-bold: 800;
 
-@import "bootstrap/scss/functions";
-@import "bootstrap/scss/variables";
-
-$custom-colors: (
+$theme-colors: (
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "warning": $warning,
+    "danger": $danger,
     "tertiary": $tertiary,
     "accent": $accent,
     "primary-light": $primary-light,
     "primary-dark": $primary-dark
 );
 
-$theme-colors: map-merge($theme-colors, $custom-colors);
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
 
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.css";
@@ -211,3 +214,37 @@ body {
         font-size: 1.8rem;
     }
 }
+
+/* Force text colors on badges to override default #fff */
+.badge.text-secondary {
+    color: $secondary !important;
+}
+.badge.text-dark {
+    color: $body-color !important;
+}
+.badge.text-white {
+    color: #fff !important;
+}
+
+/* Fix Bootstrap 5 Outline Button Hover Contrast */
+.btn-outline-danger:hover,
+.btn-outline-tertiary:hover,
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover {
+    color: white !important;
+}
+
+/* Inner Shadow Utilities */
+.inner-shadow-sm, .inner-shadow, .inner-shadow-md, .inner-shadow-lg, .inner-shadow-xl {
+    --inner-shadow-color: rgba(0, 0, 0, 0.08);
+}
+.inner-shadow-sm { box-shadow: inset 0 0 4px var(--inner-shadow-color) !important; }
+.inner-shadow    { box-shadow: inset 0 0 8px var(--inner-shadow-color) !important; }
+.inner-shadow-md { box-shadow: inset 0 0 12px var(--inner-shadow-color) !important; }
+.inner-shadow-lg { box-shadow: inset 0 0 20px var(--inner-shadow-color) !important; }
+.inner-shadow-xl { box-shadow: inset 0 0 35px var(--inner-shadow-color) !important; }
+
+/* Inner Shadow Color Modifiers */
+.inner-shadow-primary { --inner-shadow-color: #{rgba($primary, 0.25)}; }
+.inner-shadow-secondary { --inner-shadow-color: #{rgba($secondary, 0.3)}; }
+.inner-shadow-tertiary { --inner-shadow-color: #{rgba($tertiary, 0.25)}; }

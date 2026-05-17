@@ -13,30 +13,16 @@ import { CommonModule } from '@angular/common';
       <app-sidebar [isOpen]="sidebarOpen()" (close)="toggleSidebar()"></app-sidebar>
       
       <div class="main-content">
-        <div class="topbar">
-          <div class="d-flex w-100 justify-content-between align-items-center">
-            
-            <!-- Botón de Menú Hamburguesa para Móviles -->
-            <button class="btn btn-light d-md-none rounded-circle shadow-sm" (click)="toggleSidebar()">
-              <i class="bi bi-list fs-4"></i>
-            </button>
-            <div class="d-none d-md-block"></div> <!-- Espaciador en Desktop -->
+        <header class="d-md-none p-3 bg-secondary shadow-sm d-flex justify-content-between align-items-center">
+          <img src="/admin/assets/img/bluecrew-logo-complete-white.svg" alt="BlueCrew" style="height: 32px;">
+          <button class="btn btn-link text-white p-0 border-0" (click)="toggleSidebar()" aria-label="Abrir menú">
+            <i class="bi bi-list fs-3"></i>
+          </button>
+        </header>
 
-            <div class="user-profile d-flex align-items-center gap-3">
-              <div class="d-flex flex-column text-end">
-                <span class="fw-bold text-dark lh-1">Administrador</span>
-                <small class="text-secondary">admin&#64;bluecrew.org</small>
-              </div>
-              <img src="/assets/img/profile-admin.jpg" alt="Admin"
-                   onerror="this.src='https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff'" 
-                   class="rounded-circle shadow-sm border border-2 border-white" 
-                   style="width: 45px; height: 45px; object-fit: cover;">
-            </div>
-          </div>
-        </div>
-        <div class="page-content">
+        <main class="page-content">
           <router-outlet></router-outlet>
-        </div>
+        </main>
       </div>
     </div>
   `

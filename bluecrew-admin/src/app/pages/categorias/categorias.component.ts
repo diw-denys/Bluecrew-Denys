@@ -7,29 +7,45 @@ import { ApiService } from '../../services/api.service';
   selector: 'app-categorias',
   standalone: true,
   imports: [CommonModule, FormsModule],
+  styles: [`
+    .btn-outline-danger:hover {
+      color: white !important;
+    }
+  `],
   template: `
+    <!-- Alertas de Feedback -->
+    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="bi bi-check-circle-fill me-2"></i>{{ successMessage }}
+      <button type="button" class="btn-close" (click)="successMessage = ''" aria-label="Cerrar"></button>
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ errorMessage }}
+      <button type="button" class="btn-close" (click)="errorMessage = ''" aria-label="Cerrar"></button>
+    </div>
+
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <div>
+      <header>
         <h2 class="fw-bold text-primary mb-1">Categorías</h2>
         <p class="text-secondary mb-0">Organización del catálogo de contenido.</p>
-      </div>
+      </header>
     </div>
 
     <!-- Quick Form -->
-    <div class="glass-panel p-4 mb-4">
-      <h5 class="fw-bold text-dark mb-3"><i class="bi bi-plus-circle-fill text-accent me-2"></i>Añadir Nueva Categoría</h5>
-      <form class="d-flex gap-3 align-items-end" (submit)="addCategory($event)">
+    <section class="glass-panel p-4 mb-4" aria-labelledby="form-heading">
+      <h5 id="form-heading" class="fw-bold text-dark mb-3"><i class="bi bi-plus-circle-fill text-accent me-2" aria-hidden="true"></i>Añadir Nueva Categoría</h5>
+      <form #catForm="ngForm" class="d-flex gap-3 align-items-start needs-validation" (ngSubmit)="addCategory(catForm)" novalidate>
         <div class="flex-grow-1">
-          <label class="form-label text-secondary fw-semibold">Nombre de la categoría</label>
-          <input type="text" class="form-control" placeholder="Ej: Limpieza de Playas" [(ngModel)]="newCategory.nombre" name="catName" required>
+          <label for="catName" class="form-label text-secondary fw-semibold">Nombre de la categoría <span class="text-danger">*</span></label>
+          <input type="text" id="catName" class="form-control" placeholder="Ej: Limpieza de Playas" [(ngModel)]="newCategory.nombre" name="catName" required #catName="ngModel" [ngClass]="{'is-invalid': catName.invalid && (catName.dirty || catName.touched)}">
+          <div class="invalid-feedback">El nombre de la categoría es obligatorio.</div>
         </div>
         <div class="flex-grow-1">
-          <label class="form-label text-secondary fw-semibold">Descripción (Opcional)</label>
-          <input type="text" class="form-control" placeholder="Descripción breve" [(ngModel)]="newCategory.descripcion" name="catDesc">
+          <label for="catDesc" class="form-label text-secondary fw-semibold">Descripción (Opcional)</label>
+          <input type="text" id="catDesc" class="form-control" placeholder="Descripción breve" [(ngModel)]="newCategory.descripcion" name="catDesc">
         </div>
-        <button type="submit" class="btn btn-primary px-4 shadow" [disabled]="!newCategory.nombre">Crear Categoría</button>
+        <button type="submit" class="btn btn-primary px-4 shadow mt-4" [disabled]="!newCategory.nombre" aria-label="Crear Categoría">Crear Categoría</button>
       </form>
-    </div>
+    </section>
 
     <!-- Grid de tarjetas -->
     <div class="row g-4">
@@ -42,7 +58,7 @@ import { ApiService } from '../../services/api.service';
                 <p class="text-secondary small mb-0">{{c.descripcion || 'Sin descripción detallada.'}}</p>
               </div>
               <div class="d-flex gap-2">
-                <button class="btn btn-sm btn-danger shadow-sm rounded-2" (click)="deleteCategory(c.idCategoria)"><i class="bi bi-trash me-1"></i>Borrar</button>
+                <button class="btn btn-sm btn-outline-danger shadow-sm rounded-2" (click)="confirmarBorrado(c.idCategoria)" aria-label="Borrar categoría"><i class="bi bi-trash me-1" aria-hidden="true"></i>Borrar</button>
               </div>
             </div>
           </div>
@@ -59,6 +75,8 @@ import { ApiService } from '../../services/api.service';
 export class CategoriasComponent implements OnInit {
   categorias: any[] = [];
   newCategory = { nombre: '', descripcion: '' };
+  successMessage: string = '';
+  errorMessage: string = '';
 
   constructor(private api: ApiService) {}
 
@@ -73,23 +91,40 @@ export class CategoriasComponent implements OnInit {
     });
   }
 
-  addCategory(event: Event) {
-    event.preventDefault();
+  addCategory(form: any) {
+    if (form.invalid) {
+      this.errorMessage = 'Por favor completa los campos requeridos.';
+      return;
+    }
+
     this.api.createCategoria(this.newCategory).subscribe({
       next: () => {
+        this.successMessage = 'Categoría creada con éxito.';
         this.newCategory = { nombre: '', descripcion: '' };
+        form.resetForm();
         this.loadCategorias();
       },
-      error: (err) => alert('No se pudo crear: ' + err.message)
+      error: (err) => {
+        this.errorMessage = 'No se pudo crear: ' + err.message;
+      }
     });
   }
 
-  deleteCategory(id: number) {
-    if(confirm('¿Eliminar esta categoría? Podría afectar a eventos asociados.')){
-      this.api.deleteCategoria(id).subscribe({
-        next: () => this.loadCategorias(),
-        error: (err) => alert('Error. ¿Quizá hay eventos utilizando esta categoría?: ' + err.message)
-      });
+  confirmarBorrado(id: number) {
+    if(confirm('ATENCIÓN: ¿Eliminar esta categoría permanentemente? Podría afectar a eventos asociados y desvincularlos.')){
+      this.deleteCategory(id);
     }
+  }
+
+  deleteCategory(id: number) {
+    this.api.deleteCategoria(id).subscribe({
+      next: () => {
+        this.successMessage = 'La categoría fue eliminada.';
+        this.loadCategorias();
+      },
+      error: (err) => {
+        this.errorMessage = 'Error al borrar. ¿Quizá hay eventos utilizando esta categoría?: ' + err.message;
+      }
+    });
   }
 }

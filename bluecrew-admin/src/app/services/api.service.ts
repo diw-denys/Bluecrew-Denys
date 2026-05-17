@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl = 'http://localhost:8080/api';
+  private baseUrl = '/api';
 
   constructor(private http: HttpClient) { }
 
   getEstadisticasAdmin(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/estadisticas/admin`);
+    return this.http.get(`${this.baseUrl}/admin/estadisticas`);
   }
 
   getUsuarios(): Observable<any[]> {
@@ -41,9 +41,12 @@ export class ApiService {
 
   updateOrganizacion(id: number, org: any): Observable<any> {
     const formData = new FormData();
-    // Según react Frontend, espera FormData con blob 'organizacion'
     formData.append('organizacion', new Blob([JSON.stringify(org)], { type: 'application/json' }));
     return this.http.put(`${this.baseUrl}/organizaciones/${id}`, formData);
+  }
+
+  deleteOrganizacion(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/organizaciones/${id}`);
   }
 
   getContactos(): Observable<any[]> {
@@ -62,7 +65,12 @@ export class ApiService {
     return this.http.delete(`${this.baseUrl}/eventos/${id}`);
   }
 
-  // ---- NOTICIAS ----
+  updateEvento(id: number, evento: any): Observable<any> {
+    const formData = new FormData();
+    formData.append('evento', new Blob([JSON.stringify(evento)], { type: 'application/json' }));
+    return this.http.put(`${this.baseUrl}/eventos/${id}`, formData);
+  }
+
   getNoticias(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/noticias`);
   }
@@ -95,5 +103,11 @@ export class ApiService {
 
   deleteCategoria(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/categorias/${id}`);
+  }
+
+  uploadImage(imagen: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('imagen', imagen);
+    return this.http.post(`${this.baseUrl}/upload`, formData);
   }
 }

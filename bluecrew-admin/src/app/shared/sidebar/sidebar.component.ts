@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 
     <aside class="sidebar h-100" [class.show-sidebar]="isOpen">
       <div class="brand mb-4 d-flex justify-content-between align-items-center">
-        <img src="/assets/img/bluecrew-logo-complete-white.svg" alt="BlueCrew" style="height: 40px; margin-left: -10px;">
+        <img src="/admin/assets/img/bluecrew-logo-complete-white.svg" alt="BlueCrew" style="height: 40px; margin-left: -10px;">
         <button class="btn btn-link text-white d-md-none p-0" (click)="close.emit()">
           <i class="bi bi-x-lg fs-4"></i>
         </button>
@@ -50,8 +50,8 @@ import { CommonModule } from '@angular/common';
       </nav>
       
       <div class="mt-auto pt-3">
-        <hr class="text-white border-2 opacity-25">
-        <button class="btn btn-danger w-100 text-white rounded-3 shadow-sm py-2 d-flex align-items-center justify-content-center gap-2 fw-bold" style="background-color: hsl(0, 83%, 59%); border:none;">
+
+        <button (click)="logout()" class="btn btn-danger w-100 text-white rounded-3 shadow-sm py-2 d-flex align-items-center justify-content-center gap-2 fw-bold" style="background-color: hsl(0, 83%, 59%); border:none;">
           <i class="bi bi-box-arrow-left"></i>
           <span>Cerrar Sesión</span>
         </button>
@@ -62,4 +62,10 @@ import { CommonModule } from '@angular/common';
 export class SidebarComponent {
   @Input() isOpen: boolean = false;
   @Output() close = new EventEmitter<void>();
+
+  logout() {
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = '/login';
+  }
 }
